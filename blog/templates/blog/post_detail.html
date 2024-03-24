@@ -26,6 +26,9 @@
 
     <hr>
 
+    <a class="btn btn-default" href="{% url 'skip_to_next_post' current_post_id=post.id %}" style="background-color: #2a6dff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Skip to Next Post</a>
+
+
     {% for comment in post.comments.all %}
         {% if user.is_authenticated or comment.approved_comment %}
             <div class="comment">

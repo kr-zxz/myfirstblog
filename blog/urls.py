@@ -1,4 +1,6 @@
 from django.urls import path
+from . import views
+from django.urls import path
 from .views import (
     post_list,
     post_publish,
@@ -30,5 +32,10 @@ urlpatterns = [
     # Authentication-related URLs
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
+    path('skip/<int:current_post_id>/', views.skip_to_next_post, name='skip_to_next_post'),
+    
+
+   
+
 ]
 

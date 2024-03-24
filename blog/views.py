@@ -17,6 +17,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 
 
+
+
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -37,9 +39,16 @@ def user_logout(request):
 
 # Create your views here.
 
+from django.core.paginator import Paginator
+
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request ,'blog/post_list.html',{'posts':posts})
+    paginator = Paginator(posts, 5) # Show 5 posts per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'blog/post_list.html', {'page_obj': page_obj})
 
 
 
@@ -120,5 +129,23 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+from django.shortcuts import redirect
+from .models import Post
+
+def skip_to_next_post(request, current_post_id):
+    current_post_id = int(current_post_id)
+    next_post = Post.objects.filter(id__gt=current_post_id).order_by('id').first()
+    if next_post:
+        return redirect('post_detail', pk=next_post.pk)
+    else:
+        # Handle case where there is no next post
+        return redirect('post_list')  # Redirect to post list page, for example
+    
+
+    
+
+    
+
 
     

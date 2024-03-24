@@ -1,0 +1,15 @@
+/* blog.css */
+
+/* Styling for Skip button */
+.skip-button {
+    background-color: #007bff; /* Blue color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    text-decoration: none; /* Remove default underline */
+}
+
+.skip-button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}

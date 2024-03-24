@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
+    {% for post in page_obj %}
         <div class="post">
             <div class="date">
                 {{ post.published_date }}
@@ -11,14 +11,27 @@
 
             {% if user.is_authenticated %}
                 <a href="{% url 'post_detail' pk=post.pk %}">Comments all : {{ post.comments.count }}</a>
-                
-                {% else %}
+            {% else %}
                 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
-
-                {% endif %}
-               
-
-
+            {% endif %}
         </div>
     {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" style="color: #007bff; text-decoration: none; padding: 5px 10px; border: 1px solid #007bff; border-radius: 5px; margin-right: 5px;">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" style="color: #007bff; text-decoration: none; padding: 5px 10px; border: 1px solid #007bff; border-radius: 5px; margin-right: 5px;">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" style="color: #007bff; text-decoration: none; padding: 5px 10px; border: 1px solid #007bff; border-radius: 5px; margin-right: 5px;">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" style="color: #007bff; text-decoration: none; padding: 5px 10px; border: 1px solid #007bff; border-radius: 5px; margin-right: 5px;">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock content %}
