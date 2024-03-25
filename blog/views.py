@@ -51,7 +51,6 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {'page_obj': page_obj})
 
 
-
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 
